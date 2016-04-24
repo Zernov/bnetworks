@@ -36,5 +36,11 @@ shinyServer(function(input, output) {
     
   })
   
+  output$tableRlibs <- renderTable({
+    
+    tableRlibs <- read.table("Rlibs.txt", row.names = 1, header = TRUE)
+    
+  }, align='rcccccc')
+  
   
 })

@@ -37,5 +37,13 @@ shinyUI(navbarPage("Bayesian networks", id="nav",
                                         )
                                       )
                             )
+                   ),
+                   
+                   tabPanel("Bayesian Networks in R",
+                            
+                            fluidPage(titlePanel("R libraries"),
+                                      
+                                      tableOutput('tableRlibs')
+                            )
                    )
 ))
