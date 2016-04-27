@@ -47,13 +47,43 @@ body <- dashboardBody(
     #BASICS:GRAPHTHEORY
     tabItem(tabName = "basicsgraphtheory",
             fluidPage(
-              titlePanel("Graph theory"),
+              
+              titlePanel("A Brief Introduction to Graph Theory"),
               h3("Graph, Nodes, and Arcs"),
-              p("A graph $G = (V, A)$ consists of a nonempty set $V$ of ", strong(em("nodes")), " or ", strong(em("vertices")), "and a finite (but possibly empty) set $A$ of pairs of vertices called ", strong(em("arcs")), ", ", strong(em("links")), ", or ", strong(em("edges")), "."),
+              p("A graph $G = (\\mathbf{V}, A)$ consists of a nonempty set $\\mathbf{V}$ of ", strong(em("nodes")), " or ", strong(em("vertices")), "and a finite (but possibly empty) set $A$ of pairs of vertices called ", strong(em("arcs")), ", ", strong(em("links")), ", or ", strong(em("edges")), "."),
               p("Each arc $a = (u, v)$ can be defined either as an ordered or an unordered pair of nodes, which are said to be ", strong(em("connected")), "by and ", strong(em("incident")), " on the arc and to be ", strong(em("adjacent")), "to each other.
-                ")
-              )
+                Since they are adjacent, $u$ and $v$ are also said to be ", strong(em("neighbors")), ".
+                If $(u,v)$ is an ordered pair, $u$ is said to be the ", strong(em("tail")), " of the arc and $v$ the ", strong(em("head")), ";
+                then the arc is said to be ", strong(em("directed")), " from $u$ to $v$ and is usually represented with an arrowhead in $v$ $(u \\rightarrow v)$
+                It is also said that the arc ", strong(em("leaves")), " or is ", strong(em("outgoing")), " for $u$ and that it ", strong(em("enters")), " or is ", strong(em("incoming")), " for $v$. 
+                If $(u, v)$ is unordered, $u$ and $v$ are simply said to be incident on the arc without any further distinction. In this case, they are commonly referred to as ", strong(em("undirected arcs")), " or ", strong(em("edges")), ", denoted with $e \\in E$ and represented with a simple line $(u - v)$."),
+              p("The characterization of arcs as directed or undirected induces an equivalent characterization of the graphs themselves, which are said to be ", strong(em("directed graphs")), " (denoted with $G = (\\mathbf{V}, A))$ if all arcs are directed, ", strong(em("undirected graphs")), " (denoted with $G = (\\mathbf{V}, E))$ if all arcs are undirected, and ", strong(em("partially directed")), " or ", strong(em("mixed graphs")), " (denoted with $G = (\\mathbf{V}, A, E)$) if they contain both directed and undirected arcs.
+                An undirected graph can always be constructed from a directed or partially directed one by substituting all the directed arcs with undirected ones; 
+                such a graph is called the ", strong(em("skeleton")), " or the ", strong(em("underlying undirected graph")), " of the original graph.")
+              ),
+              h3("The Structure of a Graph"),
+              p("The pattern..."),
+              h3("Further Reading"),
+              p("For a broader...")
     ),
+    #BASICS:INTRODUCTIONTOR
+    tabItem(tabName = "basicsintroductiontor",
+            fluidPage(
+              titlePanel("The R Environment for Statistical Computing"),
+              p("R (R Development Core Team, 2012) is a programming language..."),
+              h3("Base Distribution and Contributed Packages"),
+              p("The R environment..."),
+              h3("A Quick Introduction to R"),
+              p("We will now illustrate..."),
+              h3("Further Reading"),
+              p("Providing...")
+            )
+            ),
+    #BASICS:EXERCISES
+    tabItem(tabName = "basicsexercises",
+            fluidPage(
+              titlePanel("Exercises")
+            )),
     #CREATING:HOWTO
     tabItem(tabName = "creatinghowto",
             fluidPage(
