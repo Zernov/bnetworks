@@ -41,7 +41,7 @@ body <- dashboardBody(
                 For this reason, they are sometimes referred to as ", strong(em("static data")), "."),
               p("Static Bayesian networks, commonly known simply as Bayesian networks, provide an intuitive and comprehensive framework to model the dependencies between the variables in static data."),
               p("In this application a brief introduction to the terminology and the basic properties of graphs, with particular attention to directed graphs, is provided."),
-              p("A brief introduction to the $R$ environment and basir $R$ programming is also provided.")
+              p("A brief introduction to the R environment and basic R programming is also provided.")
               )
             ),
     #BASICS:GRAPHTHEORY
