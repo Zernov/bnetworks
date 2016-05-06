@@ -104,8 +104,10 @@ body <- dashboardBody(
         titlePanel("Learning"),
         sidebarLayout(
           sidebarPanel(
-            selectInput("selectLearning", "Learning from:", c("Data file", "Bif file", "Example: asia"), selected = "Data file"),
-            uiOutput("selectLearningUI")
+            selectInput("selectLearning", "Learning from:", c("Data: .csv file", "Import: .bif file", "Import: .dsc file", "Import: .net file", "Example: asia"), selected = "Data file"),
+            uiOutput("selectLearningUI"),
+            uiOutput("learningAddArcsInputUI"),
+            uiOutput("learningAddArcsButtonUI")
           ),
           mainPanel(
             plotOutput("plotLearning")
