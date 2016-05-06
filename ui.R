@@ -11,13 +11,13 @@ sidebar <- dashboardSidebar(
     menuItem("Basics", tabName = "basics",
              menuSubItem("Graph theory", tabName = "basicsgraphtheory"),
              menuSubItem("Introduction to R", tabName = "basicsintroductiontor"),
-             menuSubItem("Exercises", tabName = "basicsexercises")
+             menuSubItem("Exercises >DEV<", tabName = "basicsexercises")
     ),
     menuItem("Creating graph", tabName = "creating",
-             menuSubItem("How to", tabName = "creatinghowto"),
-             menuSubItem("Manually", tabName = "creatingmanually"),
+             menuSubItem("Manually >DEV<", tabName = "creatingmanually"),
              menuSubItem("Learning", tabName = "creatinglearning")
-    )
+    ),
+    menuItem("Inference", tabName = "inference")
   )
 )
 
@@ -97,29 +97,6 @@ body <- dashboardBody(
               pre(includeText("examples/creating02"))
               )
             ),
-    #CREATING:MANUALLY
-    tabItem(
-      tabName = "creatingmanually",
-      fluidPage(
-        titlePanel("Manually"),
-        sidebarLayout(
-          sidebarPanel(
-            sliderInput("nodesManually", 
-                        "Number of nodes:", 
-                        min = 1,
-                        max = 10, 
-                        value = 5),
-            uiOutput("arcsFromManuallyUI"),
-            uiOutput("arcsToManuallyUI"),
-            actionButton("arcsAddManually", "Add")
-          ),
-          mainPanel(
-            plotOutput("plotManually"),
-            tableOutput("tableArcsManually")
-          )
-        )
-      )
-    ),
     #CREATING:LEARNING
     tabItem(
       tabName = "creatinglearning",
@@ -127,13 +104,26 @@ body <- dashboardBody(
         titlePanel("Learning"),
         sidebarLayout(
           sidebarPanel(
-            fileInput("uploadLearning", "Choose a file:", accept = c(".txt"))
+            selectInput("selectLearning", "Learning from:", c("Data file", "Bif file", "Example: asia"), selected = "Data file"),
+            uiOutput("selectLearningUI")
           ),
           mainPanel(
-            plotOutput("plotLearning"),
-            box(
-              tableOutput("tableArcsLearning")
-            )
+            plotOutput("plotLearning")
+          )
+        )
+      )
+    ),
+    tabItem(
+      tabName = "inference",
+      fluidPage(
+        titlePanel("Inference"),
+        sidebarLayout(
+          sidebarPanel(
+            
+            
+          ),
+          mainPanel(
+            
           )
         )
       )
