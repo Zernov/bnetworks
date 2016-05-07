@@ -104,10 +104,10 @@ body <- dashboardBody(
         titlePanel("Learning"),
         sidebarLayout(
           sidebarPanel(
-            selectInput("selectLearning", "Learning from:", c("Data: .csv file", "Import: .bif file", "Import: .dsc file", "Import: .net file", "Example: asia"), selected = "Data file"),
-            uiOutput("selectLearningUI"),
-            uiOutput("learningAddArcsInputUI"),
-            uiOutput("learningAddArcsButtonUI")
+            selectInput("selectLearning", "Learning from:", c("Import: .bif file", "Import: .dsc file", "Import: .net file", "Example: asia"), selected = "Import: .bif file"),
+            uiOutput("selectLearningUI")
+            #uiOutput("learningAddArcsInputUI"),
+            #uiOutput("learningAddArcsButtonUI")
           ),
           mainPanel(
             plotOutput("plotLearning")
@@ -121,11 +121,14 @@ body <- dashboardBody(
         titlePanel("Inference"),
         sidebarLayout(
           sidebarPanel(
-            
-            
+            selectInput("selectInference", "Inference from:", c("Import: .bif file", "Import: .dsc file", "Import: .net file", "Example: asia"), selected = "Import: .bif file"),
+            uiOutput("selectInferenceUI"),
+            uiOutput("eventInferenceUI"),
+            uiOutput("evidenceInferenceUI"),
+            uiOutput("makeInferenceUI")
           ),
           mainPanel(
-            
+            textOutput("outputInference")
           )
         )
       )

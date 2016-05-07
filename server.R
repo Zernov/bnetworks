@@ -7,11 +7,11 @@ shinyServer(function(input, output) {
   
   output$selectLearningUI <- renderUI({
     switch (input$selectLearning,
-            "Data: .csv file" = {fileInput("uploadCsv", "Choose .csv file", accept=c(".csv"))},
-            "Import: .bif file" = fileInput("uploadBif", "Choose .bif file", accept=c(".bif")),
-            "Import: .dsc file" = fileInput("uploadDsc", "Choose .dsc file", accept=c(".dsc")),
-            "Import: .net file" = fileInput("uploadNet", "Choose .net file", accept=c(".net")),
-            "Example: asia" = downloadButton("downloadLearning", "Download")
+            #"Data: .csv file" = {fileInput("uploadLearningCsv", "Choose .csv file", accept=c(".csv"))},
+            "Import: .bif file" = {fileInput("uploadLearningBif", "Choose .bif file", accept=c(".bif"))},
+            "Import: .dsc file" = {fileInput("uploadLearningDsc", "Choose .dsc file", accept=c(".dsc"))},
+            "Import: .net file" = {fileInput("uploadLearningNet", "Choose .net file", accept=c(".net"))},
+            "Example: asia" = {downloadButton("downloadLearning", "Download")}
     )
   })
   
@@ -26,31 +26,21 @@ shinyServer(function(input, output) {
   
   output$plotLearning <- renderPlot({
     switch (input$selectLearning,
-            "Data: .csv file" = {
-              if (!is.null(input$uploadCsv)) {
-                data <- read.csv(input$uploadCsv$datapath, row.names = 1)
-                net <- hc(data)
-                write.csv(data, file = "data")
-                write(names(data), "dataNames")
-                write(arcs(data), "dataArcs")
-                graphviz.plot(net)
-              }
-            },
             "Import: .bif file" = {
-              if (!is.null(input$uploadBif)) {
-                fitted <- read.bif(input$uploadBif$datapath)
+              if (!is.null(input$uploadLearningBif)) {
+                fitted <- read.bif(input$uploadLearningBif$datapath)
                 graphviz.plot(fitted)
               }
             },
             "Import: .dsc file" = {
-              if (!is.null(input$uploadDsc)) {
-                fitted <- read.dsc(input$uploadDsc$datapath)
+              if (!is.null(input$uploadLearningDsc)) {
+                fitted <- read.dsc(input$uploadLearningDsc$datapath)
                 graphviz.plot(fitted)
               }
             },
             "Import: .net file" = {
-              if (!is.null(input$uploadNet)) {
-                fitted <- read.net(input$uploadNet$datapath)
+              if (!is.null(input$uploadLearningNet)) {
+                fitted <- read.net(input$uploadLearningNet$datapath)
                 graphviz.plot(fitted)
               }
             },
@@ -65,13 +55,13 @@ shinyServer(function(input, output) {
   
   output$learningAddArcsInputUI <-renderUI({
     if (input$selectLearning == "Data: .csv file") {
-      if (!is.null(input$uploadCsv)) {
+      if (!is.null(input$uploadLearningCsv)) {
         dataNames <- scan("dataNames", what = character())
         learningAddArcsInputUI <- fluidRow(
           column(6,
-                 selectInput("learningAddArcsFrom", c(names(data)), selected = names(data)[1])),
+                 selectInput("learningAddArcsFrom", "From:", c(names(data)), selected = names(data)[1])),
           column(6,
-                 selectInput("learningAddArcsTo", c(names(data)), selected = names(data)[1]))
+                 selectInput("learningAddArcsTo", "To:", c(names(data)), selected = names(data)[1]))
         )
       }
     }
@@ -79,11 +69,158 @@ shinyServer(function(input, output) {
   
   output$learningAddArcsButtonUI <-renderUI({
     if (input$selectLearning == "Data: .csv file") {
-      if (!is.null(input$uploadCsv)) {
+      if (!is.null(input$uploadLearningCsv)) {
         actionButton("learningAddArcsButton", "Add")
       }
     }
   })
+  
+  dataArcsFile <- eventReactive(input$learningAddArcsButton, {
+    write(c(input$learningAddArcsFrom, input$learningAddArcsTo), file = "dataArcs", append = TRUE)
+  })
+  
+  output$selectInferenceUI <- renderUI({
+    switch (input$selectInference,
+            "Import: .bif file" = {fileInput("uploadInferenceBif", "Choose .bif file", accept=c(".bif"))},
+            "Import: .dsc file" = {fileInput("uploadInferenceDsc", "Choose .dsc file", accept=c(".dsc"))},
+            "Import: .net file" = {fileInput("uploadInferenceNet", "Choose .net file", accept=c(".net"))},
+            "Example: asia" = downloadButton("downloadInference", "Download")
+    )
+  })
+  
+  output$eventInferenceUI <- renderUI({
+    switch (input$selectInference,
+            "Import: .bif file" = {
+              if (!is.null(input$uploadInferenceBif)) {
+                fitted <- read.bif(input$uploadInferenceBif$datapath)
+                fluidRow(
+                  column(7,
+                         selectInput("eventInferenceBif", "Event:", names(fitted))),
+                  column(5,
+                         textInput("eventInferenceBifValue", "Value:"))
+                )
+              }
+            },
+            "Import: .dsc file" = {
+              if (!is.null(input$uploadInferenceDsc)) {
+                fitted <- read.dsc(input$uploadInferenceDsc$datapath)
+                fluidRow(
+                  column(7,
+                         selectInput("eventInferenceDsc", "Event:", names(fitted))),
+                  column(5,
+                         textInput("eventInferenceDscValue", "Value:"))
+                )
+              }
+            },
+            "Import: .net file" = {
+              if (!is.null(input$uploadInferenceNet)) {
+                fitted <- read.net(input$uploadInferenceNet$datapath)
+                fluidRow(
+                  column(7,
+                         selectInput("eventInferenceNet", "Event:", names(fitted))),
+                  column(5,
+                         textInput("eventInferenceNetValue", "Value:"))
+                )
+              }
+            },
+            "Example: asia" = {
+              fluidRow(
+                column(7,
+                       selectInput("eventInferenceExampleAsia", "Event:", names(asia))),
+                column(5,
+                       textInput("eventInferenceExampleAsiaValue", "Value:"))
+              )
+            }
+    )
+  })
+  
+  output$evidenceInferenceUI <- renderUI({
+    switch (input$selectInference,
+            "Import: .bif file" = {
+              if (!is.null(input$uploadInferenceBif)) {
+                textInput("evidenceInferenceBif", "Evidence:")
+              }
+            },
+            "Import: .dsc file" = {
+              if (!is.null(input$uploadInferenceDsc)) {
+                textInput("evidenceInferenceDsc", "Evidence:")
+              }
+            },
+            "Import: .net file" = {
+              if (!is.null(input$uploadInferenceNet)) {
+                textInput("evidenceInferenceNet", "Evidence:")
+              }
+            },
+            "Example: asia" = {
+              
+              textInput("evidenceInferenceExampleAsia", "Evidence:")
+            }
+    )
+  })
+  
+  output$makeInferenceUI <- renderUI({
+    switch (input$selectInference,
+            "Import: .bif file" = {
+              if (!is.null(input$uploadInferenceBif)) {
+                actionButton("makeInferenceButton", "Inference")
+              }
+            },
+            "Import: .dsc file" = {
+              if (!is.null(input$uploadInferenceDsc)) {
+                actionButton("makeInferenceButton", "Inference")
+              }
+            },
+            "Import: .net file" = {
+              if (!is.null(input$uploadInferenceNet)) {
+                actionButton("makeInferenceButton", "Inference")
+              }
+            },
+            "Example: asia" = {
+              actionButton("makeInferenceButton", "Inference")
+            }
+    )
+  })
+  
+  textInference <- eventReactive(input$makeInferenceButton, {
+    switch (input$selectInference,
+            "Import: .bif file" = {
+              if (!is.null(input$uploadInferenceBif)) {
+                fitted <- read.bif(input$uploadInferenceBif$datapath)
+                event <- paste(as.character(input$eventInferenceBif), " == ", as.character(input$eventInferenceBifValue))
+                evidence <- as.character(input$evidenceInferenceBif)
+                write(as.character(input$evidenceInferenceBif), file = "temp")
+                inference <- paste("cpquery(fitted, ", event, ", ", evidence, ")", sep = "")
+                textInference <- eval(parse(text = inference))
+              }
+            },
+            "Import: .dsc file" = {
+              if (!is.null(input$uploadInferenceDsc)) {
+                actionButton("makeInferenceButton", "Inference")
+              }
+            },
+            "Import: .net file" = {
+              if (!is.null(input$uploadInferenceNet)) {
+                actionButton("makeInferenceButton", "Inference")
+              }
+            },
+            "Example: asia" = {
+              actionButton("makeInferenceButton", "Inference")
+            }
+    )
+  })
+  
+  output$outputInference <- renderText({
+    textInference()
+  })
+  
+  output$downloadInference <- downloadHandler(
+    filename = function() {
+      paste('asia.csv', sep = '')
+    },
+    content = function(file) {
+      write.csv(file, asia)
+    }
+  )
   
   # 
   # output$tableRlibs <- renderTable({
