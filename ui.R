@@ -13,9 +13,9 @@ sidebar <- dashboardSidebar(
              menuSubItem("Introduction to R", tabName = "basicsintroductiontor"),
              menuSubItem("Exercises >DEV<", tabName = "basicsexercises")
     ),
-    menuItem("Creating graph", tabName = "creating",
+    menuItem("Creating graph >DEV<", tabName = "creating",
              menuSubItem("Manually >DEV<", tabName = "creatingmanually"),
-             menuSubItem("Learning", tabName = "creatinglearning")
+             menuSubItem("Learning >DEV<", tabName = "creatinglearning")
     ),
     menuItem("Inference", tabName = "inference")
   )
@@ -98,23 +98,23 @@ body <- dashboardBody(
               )
             ),
     #CREATING:LEARNING
-    tabItem(
-      tabName = "creatinglearning",
-      fluidPage(
-        titlePanel("Learning"),
-        sidebarLayout(
-          sidebarPanel(
-            selectInput("selectLearning", "Learning from:", c("Import: .bif file", "Import: .dsc file", "Import: .net file", "Example: asia"), selected = "Import: .bif file"),
-            uiOutput("selectLearningUI")
-            #uiOutput("learningAddArcsInputUI"),
-            #uiOutput("learningAddArcsButtonUI")
-          ),
-          mainPanel(
-            plotOutput("plotLearning")
-          )
-        )
-      )
-    ),
+    # tabItem(
+    #   tabName = "creatinglearning",
+    #   fluidPage(
+    #     titlePanel("Learning"),
+    #     sidebarLayout(
+    #       sidebarPanel(
+    #         selectInput("selectLearning", "Learning from:", c("Import: .bif file", "Import: .dsc file", "Import: .net file", "Example: asia"), selected = "Import: .bif file"),
+    #         uiOutput("selectLearningUI")
+    #         #uiOutput("learningAddArcsInputUI"),
+    #         #uiOutput("learningAddArcsButtonUI")
+    #       ),
+    #       mainPanel(
+    #         plotOutput("plotLearning")
+    #       )
+    #     )
+    #   )
+    # ),
     tabItem(
       tabName = "inference",
       fluidPage(
@@ -128,6 +128,7 @@ body <- dashboardBody(
             uiOutput("makeInferenceUI")
           ),
           mainPanel(
+            plotOutput("plotInference"),
             textOutput("outputInference")
           )
         )

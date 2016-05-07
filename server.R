@@ -213,6 +213,35 @@ shinyServer(function(input, output) {
     textInference()
   })
   
+  output$plotInference <- renderPlot({
+    switch (input$selectInference,
+            "Import: .bif file" = {
+              if (!is.null(input$uploadInferenceBif)) {
+                fitted <- read.bif(input$uploadInferenceBif$datapath)
+                graphviz.plot(fitted)
+              }
+            },
+            "Import: .dsc file" = {
+              if (!is.null(input$uploadInferenceDsc)) {
+                fitted <- read.dsc(input$uploadInferenceDsc$datapath)
+                graphviz.plot(fitted)
+              }
+            },
+            "Import: .net file" = {
+              if (!is.null(input$uploadInferenceNet)) {
+                fitted <- read.net(input$uploadInferenceNet$datapath)
+                graphviz.plot(fitted)
+              }
+            },
+            "Example: asia" = {
+              net <- hc(asia)
+              arcs(net) <- c(arcs(net), c("A", "T"))
+              fitted <- bn.fit(net, asia)
+              graphviz.plot(fitted)
+            }
+    )
+  })
+  
   output$downloadInference <- downloadHandler(
     filename = function() {
       paste('asia.csv', sep = '')
