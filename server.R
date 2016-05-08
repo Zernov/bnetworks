@@ -3,15 +3,24 @@ library(bnlearn)
 library(Rgraphviz)
 library(shinydashboard)
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   
-  output$graph01 <- renderUI({
-    img(src = "images/graph01.png", width = "auto")
-  })
+  output$graph01 <- renderImage({
+    require(png)
+    pic <- readPNG("images/graph01.png")
+    pic.size <- dim(pic)
+    pic.ratio <- pic.size[1]/pic.size[2]
+    imgwidth  <- session$clientData$output_graph01_width
+    imgheight <- imgwidth * pic.ratio
+    list(src = "images/graph01.png",
+         width = imgwidth,
+         height = imgheight,
+         alt = "images/graph01.png")
+  }, 
+  deleteFile = FALSE)
   
   output$selectLearningUI <- renderUI({
     switch (input$selectLearning,
-            #"Data: .csv file" = {fileInput("uploadLearningCsv", "Choose .csv file", accept=c(".csv"))},
             "Import: .bif file" = {fileInput("uploadLearningBif", "Choose .bif file", accept=c(".bif"))},
             "Import: .dsc file" = {fileInput("uploadLearningDsc", "Choose .dsc file", accept=c(".dsc"))},
             "Import: .net file" = {fileInput("uploadLearningNet", "Choose .net file", accept=c(".net"))},

@@ -57,15 +57,48 @@ body <- dashboardBody(
                 then the arc is said to be ", strong(em("directed")), " from $u$ to $v$ and is usually represented with an arrowhead in $v$ $(u \\rightarrow v)$
                 It is also said that the arc ", strong(em("leaves")), " or is ", strong(em("outgoing")), " for $u$ and that it ", strong(em("enters")), " or is ", strong(em("incoming")), " for $v$. 
                 If $(u, v)$ is unordered, $u$ and $v$ are simply said to be incident on the arc without any further distinction. In this case, they are commonly referred to as ", strong(em("undirected arcs")), " or ", strong(em("edges")), ", denoted with $e \\in E$ and represented with a simple line $(u - v)$."),
-              p("The characterization of arcs as directed or undirected induces an equivalent characterization of the graphs themselves, which are said to be ", strong(em("directed graphs")), " (denoted with $G = (\\mathbf{V}, A))$ if all arcs are directed, ", strong(em("undirected graphs")), " (denoted with $G = (\\mathbf{V}, E))$ if all arcs are undirected, and ", strong(em("partially directed")), " or ", strong(em("mixed graphs")), " (denoted with $G = (\\mathbf{V}, A, E)$) if they contain both directed and undirected arcs.
-                An undirected graph can always be constructed from a directed or partially directed one by substituting all the directed arcs with undirected ones; 
-                such a graph is called the ", strong(em("skeleton")), " or the ", strong(em("underlying undirected graph")), " of the original graph."),
-              uiOutput("graph01"),
+              p("The characterization of arcs as directed or undirected induces an equivalent characterization of the graphs themselves, which are said to be ", strong(em("directed graphs")), " (denoted with $G = (\\mathbf{V}, A))$ if all arcs are directed, ", strong(em("undirected graphs")), " (denoted with $G = (\\mathbf{V}, E))$ if all arcs are undirected, and ", strong(em("partially directed")), " or ", strong(em("mixed graphs")), " (denoted with $G = (\\mathbf{V}, A, E)$) if they contain both directed and undirected arcs."
+                ),
+              imageOutput("graph01", height = "auto"),
+              fluidRow(
+                align = "center",
+                p(strong("Fig. 1: "), "An undirected graph (", em("left"), ") a directed graph (", em("center"), ") and a partially directed graph (", em("right"), ")")
+              ),
+              p("Examples of ", strong(em("directed")), ", ", strong(em("undirected")), ", and mixed ", strong(em("partially directed")), "graphs are shown in ", strong("Fig. 1"), "in that order.
+                For the undirected graph, ", strong("Fig. 1"), ":"),
+              tags$ul(
+                tags$li("The node set is $\\mathbf{V} = \\{\\text{A},\\text{B},\\text{C},\\text{D},\\text{E}\\}$ and the edge set is $E = \\{(\\text{A}-\\text{B}), (\\text{A}-\\text{C}), (\\text{A}-\\text{D}), (\\text{B}-\\text{D}), (\\text{C}-\\text{E}), (\\text{D}-\\text{E})\\}$."), 
+                tags$li("Arcs are undirected, so, i.e., $(\\text{A} - \\text{B})$ and $(\\text{B} - \\text{A})$ are equivalent and identify the same edge."), 
+                tags$li("Likewise, $\\text{A}$ is connected to $\\text{B}$, $\\text{B}$ is connected to $\\text{A}$, and $\\text{A}$ and $\\text{B}$ are adjacent.")
+              ),
+              p("For the directed graph, ", strong("Fig. 1"), ":"
+                ),
+              tags$ul(
+                tags$li("The node set is $\\mathbf{V} = \\{\\text{A},\\text{B},\\text{C},\\text{D},\\text{E}\\}$ and the graph is characterized by and arc set $A = \\{(\\text{A}\\rightarrow\\text{B}), (\\text{C}\\rightarrow\\text{A}), (\\text{D}\\rightarrow\\text{B}), (\\text{C}\\rightarrow\\text{D}), (\\text{C}\\rightarrow\\text{E})\\}$ instead of an edge set $E$."), 
+                tags$li("Arcs are directed, so, i.e. $(\\text{A}\\rightarrow\\text{B})$ and $(\\text{B}\\rightarrow\\text{A})$ identify different arcs.
+                        For instance, $(\\text{A}\\rightarrow\\text{B})\\in A$ while $(\\text{B}\\rightarrow\\text{A})\\notin A$.
+                        Under the additional constraint of acyclicity, it is not possible for both arcs to be present in the graph because there can be at most one arc between each pair of nodes."),
+                tags$li("Also, $\\text{A}$ and $\\text{B}$ are adjacent, as there is an arc $(\\text{A}\\rightarrow\\text{B})$ from $\\text{A}$ to $\\text{B}$. $(\\text{A}\\rightarrow\\text{B})$ is an outgoing arc for $\\text{A}$ (the tail), an incoming arc for $\\text{B}$ (the head), and an incident arc for both $\\text{A}$ and $\\text{B}$.")
+              ),
+              p("On the other hand, the partially directed graph, ", strong("Fig. 1"), " is characterized by the combination of an edge set $E = \\{(\\text{A}-\\text{C}), (\\text{A}-\\text{D}), (\\text{C}-\\text{D})\\}$ and an arc set $A = \\{(\\text{D}\\rightarrow\\text{E}), (\\text{E}\\rightarrow\\text{B})\\}$."),
+              p("An undirected graph can always be constructed from a directed or partially directed one by substituting all the directed arcs with undirected ones; 
+                such a graph is called the ", strong(em("skeleton")), " or the ", strong(em("underlying undirected graph")), " of the original graph."
+                ),
               h3("The Structure of a Graph"),
               p("The pattern with which the arcs appear in a graph is referred to as either the ", strong(em("structure")), " of the graph or the ", strong(em("configuration")), " of the arcs.",
                 "In the context of this application it is assumed that the vertices ", strong(em("u")), " and ", strong(em("v")), "incident on each arc are distinct and that there is at most one arc between them so that $(u,v)$ uniquely identifies an arc.",
                 "This definition also implicity excludes presence of a ", strong(em("loop")), " that can occur when $u = v$."
                 ),
+              p("The simpliest structure is an ", strong(em("empty graph")), ", i.e., a graph with no arcs.
+                On the other end of the spectrum are ", strong(em("saturated graphs")), ", in which each node is connected to every other node.
+                Read-world graphical abstractions usually fall between these two extremes and can be either ", strong(em("sparse")), " or ", strong(em("dense")), ". 
+                While the distinction between these two classes of graphs is rather vague, a graph is usually considered sparse if $O(|E|+|A|)=O(|\\mathbf{V}|)$."
+                ),
+              p("The structure of a graph can reveal interesting statistical properties.
+                Some of the most important ones deal with ", strong(em("paths")), ".
+                Paths are essentially sequences of arcs or edges ", strong(em("connecting")), " two nodes, called ", strong(em("end-vertices")), " or ", strong(em("end-nodes")), ".
+                Paths are denoted with the sequence of vertices $(v_1 ,v_2 ,\\ldots ,v_n)$ incident on those arcs.
+                The arcs connecting the vertices "),
               h3("Further Reading"),
               p("For a broader...")
             )
@@ -101,24 +134,7 @@ body <- dashboardBody(
               pre(includeText("pre/creating02"))
               )
             ),
-    #CREATING:LEARNING
-    # tabItem(
-    #   tabName = "creatinglearning",
-    #   fluidPage(
-    #     titlePanel("Learning"),
-    #     sidebarLayout(
-    #       sidebarPanel(
-    #         selectInput("selectLearning", "Learning from:", c("Import: .bif file", "Import: .dsc file", "Import: .net file", "Example: asia"), selected = "Import: .bif file"),
-    #         uiOutput("selectLearningUI")
-    #         #uiOutput("learningAddArcsInputUI"),
-    #         #uiOutput("learningAddArcsButtonUI")
-    #       ),
-    #       mainPanel(
-    #         plotOutput("plotLearning")
-    #       )
-    #     )
-    #   )
-    # ),
+    #INFERENCE
     tabItem(
       tabName = "inference",
       fluidPage(
