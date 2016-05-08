@@ -5,6 +5,10 @@ library(shinydashboard)
 
 shinyServer(function(input, output) {
   
+  output$graph01 <- renderUI({
+    img(src = "images/graph01.png", width = "auto")
+  })
+  
   output$selectLearningUI <- renderUI({
     switch (input$selectLearning,
             #"Data: .csv file" = {fileInput("uploadLearningCsv", "Choose .csv file", accept=c(".csv"))},
@@ -195,16 +199,33 @@ shinyServer(function(input, output) {
             },
             "Import: .dsc file" = {
               if (!is.null(input$uploadInferenceDsc)) {
-                actionButton("makeInferenceButton", "Inference")
+                fitted <- read.dsc(input$uploadInferenceDsc$datapath)
+                event <- paste(as.character(input$eventInferenceDsc), " == ", as.character(input$eventInferenceDscValue))
+                evidence <- as.character(input$evidenceInferenceDsc)
+                write(as.character(input$evidenceInferenceDsc), file = "temp")
+                inference <- paste("cpquery(fitted, ", event, ", ", evidence, ")", sep = "")
+                textInference <- eval(parse(text = inference))
               }
             },
             "Import: .net file" = {
               if (!is.null(input$uploadInferenceNet)) {
-                actionButton("makeInferenceButton", "Inference")
+                fitted <- read.net(input$uploadInferenceNet$datapath)
+                event <- paste(as.character(input$eventInferenceNet), " == ", as.character(input$eventInferenceNetValue))
+                evidence <- as.character(input$evidenceInferenceNet)
+                write(as.character(input$evidenceInferenceNet), file = "temp")
+                inference <- paste("cpquery(fitted, ", event, ", ", evidence, ")", sep = "")
+                textInference <- eval(parse(text = inference))
               }
             },
             "Example: asia" = {
-              actionButton("makeInferenceButton", "Inference")
+              net <- hc(asia)
+              arcs(net) <- c(arcs(net), c("A", "T"))
+              fitted <- bn.fit(net, asia)
+              event <- paste(as.character(input$eventInferenceExampleAsia), " == ", as.character(input$eventInferenceExampleAsiaValue))
+              evidence <- as.character(input$evidenceInferenceExampleAsia)
+              write(as.character(input$evidenceInferenceExampleAsia), file = "temp")
+              inference <- paste("cpquery(fitted, ", event, ", ", evidence, ")", sep = "")
+              textInference <- eval(parse(text = inference))
             }
     )
   })

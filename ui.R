@@ -59,12 +59,16 @@ body <- dashboardBody(
                 If $(u, v)$ is unordered, $u$ and $v$ are simply said to be incident on the arc without any further distinction. In this case, they are commonly referred to as ", strong(em("undirected arcs")), " or ", strong(em("edges")), ", denoted with $e \\in E$ and represented with a simple line $(u - v)$."),
               p("The characterization of arcs as directed or undirected induces an equivalent characterization of the graphs themselves, which are said to be ", strong(em("directed graphs")), " (denoted with $G = (\\mathbf{V}, A))$ if all arcs are directed, ", strong(em("undirected graphs")), " (denoted with $G = (\\mathbf{V}, E))$ if all arcs are undirected, and ", strong(em("partially directed")), " or ", strong(em("mixed graphs")), " (denoted with $G = (\\mathbf{V}, A, E)$) if they contain both directed and undirected arcs.
                 An undirected graph can always be constructed from a directed or partially directed one by substituting all the directed arcs with undirected ones; 
-                such a graph is called the ", strong(em("skeleton")), " or the ", strong(em("underlying undirected graph")), " of the original graph.")
-              ),
+                such a graph is called the ", strong(em("skeleton")), " or the ", strong(em("underlying undirected graph")), " of the original graph."),
+              uiOutput("graph01"),
               h3("The Structure of a Graph"),
-              p("The pattern..."),
+              p("The pattern with which the arcs appear in a graph is referred to as either the ", strong(em("structure")), " of the graph or the ", strong(em("configuration")), " of the arcs.",
+                "In the context of this application it is assumed that the vertices ", strong(em("u")), " and ", strong(em("v")), "incident on each arc are distinct and that there is at most one arc between them so that $(u,v)$ uniquely identifies an arc.",
+                "This definition also implicity excludes presence of a ", strong(em("loop")), " that can occur when $u = v$."
+                ),
               h3("Further Reading"),
               p("For a broader...")
+            )
     ),
     #BASICS:INTRODUCTIONTOR
     tabItem(tabName = "basicsintroductiontor",
@@ -92,9 +96,9 @@ body <- dashboardBody(
                 The scores are bounded in the interval [0, 100].
                 This data set was originally investigated by Mardia. et al. (1979) and subsequently in classic books on graphical models such as Whittaker (1990) and Edwards (2000).
                 A copy of the data is included in ", strong("bnlearn"), " under the name ", code("marks"), "."),
-              pre(includeText("examples/creating01")),
+              pre(includeText("pre/creating01")),
               p("Upon loading the data, we can create an empty network with the nodes corresponding to the variables in ", code("marks"), " using the ", code("empty.graph"), "function."),
-              pre(includeText("examples/creating02"))
+              pre(includeText("pre/creating02"))
               )
             ),
     #CREATING:LEARNING
