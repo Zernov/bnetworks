@@ -10,7 +10,7 @@ sidebar <- dashboardSidebar(
     menuItem("Overview", tabName = "overview", selected = TRUE),
     menuItem("Basics", tabName = "basics",
              menuSubItem("Graph theory", tabName = "basicsgraphtheory"),
-             menuSubItem("Introduction to R", tabName = "basicsintroductiontor"),
+             menuSubItem("R", tabName = "basicsr"),
              menuSubItem("Exercises >DEV<", tabName = "basicsexercises")
     ),
     menuItem("Creating graph >DEV<", tabName = "creating",
@@ -97,14 +97,45 @@ body <- dashboardBody(
               p("The structure of a graph can reveal interesting statistical properties.
                 Some of the most important ones deal with ", strong(em("paths")), ".
                 Paths are essentially sequences of arcs or edges ", strong(em("connecting")), " two nodes, called ", strong(em("end-vertices")), " or ", strong(em("end-nodes")), ".
-                Paths are denoted with the sequence of vertices $(v_1 ,v_2 ,\\ldots ,v_n)$ incident on those arcs.
-                The arcs connecting the vertices "),
+                Paths are denoted with the sequence of vertices $(v_1, v_2, \\ldots, v_n)$ incident on those arcs.
+                The arcs connecting the vertices $v_1, v_2, \\ldots, v_n$ are assumed to be unique, so that a path passes through each only once.
+                In directed graphs it is also assumed that all the arcs in a path follow the same direction, and we say that a path ", strong(em("leads from $v_1$")), " (i.e., the tail of the first arc in the path) ", strong(em("to $v_n$")), " (i.e., the head of the last arc in the path).
+                In undirected graphs and mixed graphs (and in general when referring to a graph regardless which class it belongs to), arcs in a path can point in either direction or be undirected.
+                Paths in which $v_1 = v_n$ are called ", strong(em("cycles")), " and are treated with particular care in Bayesian network theory."
+                ),
+              p("The structure of a directed graph defines a partial ordering of the nodes if the graph is", strong(em("acyclic")), ", that is, if it does not contain any cycle or loop.
+                This ordering is called an ", strong(em("acyclic")), " or ", strong(em("topological ordering")), " and is induced by the direction of the arcs. 
+                It is defined as follows: if a node $v_i$ precedes $v_j$, there can be no arc from $v_j$ to $v_i$.
+                According to this definition the first nodes are the ", strong(em("root nodes")), ", which have no incoming arcs, and the last ones are the ", strong(em("leaf nodes")), ", which have at least one incoming arc but no outgoing ones.
+                Furthermore, if there is a path leading from $v_i$ to $v_j$, $v_i$ precedes $v_j$ in the sequence of the ordered nodes.
+                In this case $v_i$ is called an ", strong(em("ancestor")), "of $v_j$ and $v_j$ is called a ", strong(em("descendant")), "of $v_i$.
+                If the path is composed by a single arc, by analogy $x_i$ is a ", strong(em("parent")), " of $v_j$ and $v_j$ is a ", strong(em("child")), "of $v_i$."
+                ),
+              imageOutput("graph02", height = "auto"),
+              fluidRow(
+                align = "center",
+                p(strong("Fig. 2: "), "Parents, children, ancestors, descendants, and neighbors of node $\\text{A}$ in a directed graph")
+              ),
+              p("Consider, for instance, node $\\text{A}$ in the directed acyclic graph shown in ", strong("Fig. 2"), ".
+                Its neighborhood is the union of the parents and children;
+                adjacent nodes necessarily fall into one of these two categories.
+                Its parents are also ancestors, as they necessarily precede $\\text{A}$ in the topological ordering.
+                Likewise, children are also descendants."
+                ),
+              p("The topological ordering induced by the graph structure is $$(\\{\\text{F},\\text{G},\\text{H}\\},\\{\\text{C},\\text{B}\\},\\{\\text{A}\\},\\{\\text{D},\\text{E}\\},\\{\\text{L},\\text{K}\\})$$."
+                ),
+              p("The nodes are only ", strong(em("partially ordered")), ";
+                for example, no ordering can be established among root nodes or leaf nodes.
+                As a result, in practice the topological ordering of a directed acyclic graph is defined over a set of unordered sets of nodes, denoted with $V_i = \\{v_{i_1}, \\ldots, v_{i_k}\\}$, defining a partition of $\\textbf{V}$."
+                ),
               h3("Further Reading"),
-              p("For a broader...")
+              p("For a broader coverage of the properties of directed and mixed graphs, we refer the reader to the monograph by Bang-Jensen and Gutin (2009), which at the time of this writing is the most complete reference on the subject. 
+                For undirected graphs, we refer to the classic book of Diestel (2005)."
+                )
             )
     ),
-    #BASICS:INTRODUCTIONTOR
-    tabItem(tabName = "basicsintroductiontor",
+    #BASICS:R
+    tabItem(tabName = "basicsr",
             fluidPage(
               titlePanel("The R Environment for Statistical Computing"),
               p("R (R Development Core Team, 2012) is a programming language..."),

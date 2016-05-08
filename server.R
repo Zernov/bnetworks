@@ -19,6 +19,20 @@ shinyServer(function(input, output, session) {
   }, 
   deleteFile = FALSE)
   
+  output$graph02 <- renderImage({
+    require(png)
+    pic <- readPNG("images/graph02.png")
+    pic.size <- dim(pic)
+    pic.ratio <- pic.size[1]/pic.size[2]
+    imgwidth  <- session$clientData$output_graph01_width
+    imgheight <- imgwidth * pic.ratio
+    list(src = "images/graph02.png",
+         width = imgwidth,
+         height = imgheight,
+         alt = "images/graph02.png")
+  }, 
+  deleteFile = FALSE)
+  
   output$selectLearningUI <- renderUI({
     switch (input$selectLearning,
             "Import: .bif file" = {fileInput("uploadLearningBif", "Choose .bif file", accept=c(".bif"))},
