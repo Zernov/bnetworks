@@ -1,0 +1,3 @@
+> summary(new.data[, "Sim.Diameter"])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  2.000   2.855   3.641   3.759   4.640   5.982

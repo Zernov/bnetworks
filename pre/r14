@@ -1,0 +1,3 @@
+> boxplot(Sim.Diameter  ̃ Species, data = new.data,
++     ylab = "Diameter (inches)")
+> abline(h = 4, lty = "dashed")

@@ -10,7 +10,7 @@ shinyServer(function(input, output, session) {
     pic <- readPNG("images/graph01.png")
     pic.size <- dim(pic)
     pic.ratio <- pic.size[1]/pic.size[2]
-    imgwidth  <- session$clientData$output_graph01_width
+    imgwidth  <-min(session$clientData$output_graph01_width, pic.size[2])
     imgheight <- imgwidth * pic.ratio
     list(src = "images/graph01.png",
          width = imgwidth,
@@ -24,12 +24,40 @@ shinyServer(function(input, output, session) {
     pic <- readPNG("images/graph02.png")
     pic.size <- dim(pic)
     pic.ratio <- pic.size[1]/pic.size[2]
-    imgwidth  <- session$clientData$output_graph01_width
+    imgwidth  <-min(session$clientData$output_graph01_width, pic.size[2])
     imgheight <- imgwidth * pic.ratio
     list(src = "images/graph02.png",
          width = imgwidth,
          height = imgheight,
          alt = "images/graph02.png")
+  }, 
+  deleteFile = FALSE)
+  
+  output$r01 <- renderImage({
+    require(png)
+    pic <- readPNG("images/r01.png")
+    pic.size <- dim(pic)
+    pic.ratio <- pic.size[1]/pic.size[2]
+    imgwidth  <-min(session$clientData$output_graph01_width, pic.size[2])
+    imgheight <- imgwidth * pic.ratio
+    list(src = "images/r01.png",
+         width = imgwidth,
+         height = imgheight,
+         alt = "images/r01.png")
+  }, 
+  deleteFile = FALSE)
+  
+  output$r02 <- renderImage({
+    require(png)
+    pic <- readPNG("images/r02.png")
+    pic.size <- dim(pic)
+    pic.ratio <- pic.size[1]/pic.size[2]
+    imgwidth  <-min(session$clientData$output_graph01_width, pic.size[2])
+    imgheight <- imgwidth * pic.ratio
+    list(src = "images/r02.png",
+         width = imgwidth,
+         height = imgheight,
+         alt = "images/r02.png")
   }, 
   deleteFile = FALSE)
   

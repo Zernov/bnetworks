@@ -1,0 +1,7 @@
+> summary(new.data[!is.sagrei, "Sim.Diameter"])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  2.035   2.903   3.807   3.888   4.838   5.982
+> var(new.data[is.sagrei, "Sim.Diameter"])
+[1] 1.038415
+> var(new.data[!is.sagrei, "Sim.Diameter"])
+[1] 1.333333

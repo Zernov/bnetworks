@@ -1,0 +1,6 @@
+> summary(lizards)
+     Species       Diameter     Height
+Sagrei   :164    narrow:252    high:264
+Distichus:245    wide  :157    low :145
+> dim(lizards)
+[1] 409   3

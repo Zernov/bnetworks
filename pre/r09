@@ -1,0 +1,13 @@
+> Sagrei.lizards =
++     lizards[lizards$Species == "Sagrei", ]
+> Distichus.lizards =
++     lizards[lizards$Species == "Distichus", ]
+> par(mfrow = c(2, 2))
+> plot(Sagrei.lizards[, "Height"],
++     main = "Perch Height (Sagrei)")
+> plot(Distichus.lizards[, "Height"],
++     main = "Perch Height (Distichus)")
+> plot(Sagrei.lizards[, "Diameter"],
++     main = "Perch Diameter (Sagrei)")
+> plot(Distichus.lizards[, "Diameter"],
++     main = "Perch Diameter (Distichus)")

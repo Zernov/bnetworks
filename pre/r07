@@ -1,0 +1,6 @@
+> levels(lizards[, "Species"])
+[1] "Sagrei"    "Distichus"
+> levels(lizards[, "Height"])
+[1] "high" "low"
+> levels(lizards[, "Diameter"])
+[1] "narrow" "wide"

@@ -1,0 +1,4 @@
+> is.sagrei = (new.data[, "Species"] == "Sagrei")
+> summary(new.data[is.sagrei, "Sim.Diameter"])
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+  2.000   2.777   3.467   3.566   4.190   5.965

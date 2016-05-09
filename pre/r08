@@ -1,0 +1,14 @@
+> table(lizards[, c(3, 2, 1)])
+, , Species = Sagrei
+
+      Diameter
+Height narrow wide
+  high     86   35
+  low      32   11
+  
+, , Species = Distichus
+
+      Diameter
+Height narrow wide
+  high     73   70
+   low     61   41
