@@ -10,7 +10,7 @@ shinyServer(function(input, output, session) {
     pic <- readPNG("images/graph01.png")
     pic.size <- dim(pic)
     pic.ratio <- pic.size[1]/pic.size[2]
-    imgwidth  <-min(session$clientData$output_graph01_width, pic.size[2])
+    imgwidth  <- min(session$clientData$output_graph01_width, pic.size[2])
     imgheight <- imgwidth * pic.ratio
     list(src = "images/graph01.png",
          width = imgwidth,
@@ -61,85 +61,26 @@ shinyServer(function(input, output, session) {
   }, 
   deleteFile = FALSE)
   
-  output$selectLearningUI <- renderUI({
-    switch (input$selectLearning,
-            "Import: .bif file" = {fileInput("uploadLearningBif", "Choose .bif file", accept=c(".bif"))},
-            "Import: .dsc file" = {fileInput("uploadLearningDsc", "Choose .dsc file", accept=c(".dsc"))},
-            "Import: .net file" = {fileInput("uploadLearningNet", "Choose .net file", accept=c(".net"))},
-            "Example: asia" = {downloadButton("downloadLearning", "Download")}
-    )
-  })
-  
-  output$downloadLearning <- downloadHandler(
-    filename = function() {
-      paste('asia.csv', sep = '')
-    },
-    content = function(file) {
-      write.csv(file, asia)
-    }
-  )
-  
-  output$plotLearning <- renderPlot({
-    switch (input$selectLearning,
-            "Import: .bif file" = {
-              if (!is.null(input$uploadLearningBif)) {
-                fitted <- read.bif(input$uploadLearningBif$datapath)
-                graphviz.plot(fitted)
-              }
-            },
-            "Import: .dsc file" = {
-              if (!is.null(input$uploadLearningDsc)) {
-                fitted <- read.dsc(input$uploadLearningDsc$datapath)
-                graphviz.plot(fitted)
-              }
-            },
-            "Import: .net file" = {
-              if (!is.null(input$uploadLearningNet)) {
-                fitted <- read.net(input$uploadLearningNet$datapath)
-                graphviz.plot(fitted)
-              }
-            },
-            "Example: asia" = {
-              net <- hc(asia)
-              arcs(net) <- c(arcs(net), c("A", "T"))
-              fitted <- bn.fit(net, asia)
-              graphviz.plot(fitted)
-            }
-    )
-  })
-  
-  output$learningAddArcsInputUI <-renderUI({
-    if (input$selectLearning == "Data: .csv file") {
-      if (!is.null(input$uploadLearningCsv)) {
-        dataNames <- scan("dataNames", what = character())
-        learningAddArcsInputUI <- fluidRow(
-          column(6,
-                 selectInput("learningAddArcsFrom", "From:", c(names(data)), selected = names(data)[1])),
-          column(6,
-                 selectInput("learningAddArcsTo", "To:", c(names(data)), selected = names(data)[1]))
-        )
-      }
-    }
-  })
-  
-  output$learningAddArcsButtonUI <-renderUI({
-    if (input$selectLearning == "Data: .csv file") {
-      if (!is.null(input$uploadLearningCsv)) {
-        actionButton("learningAddArcsButton", "Add")
-      }
-    }
-  })
-  
-  dataArcsFile <- eventReactive(input$learningAddArcsButton, {
-    write(c(input$learningAddArcsFrom, input$learningAddArcsTo), file = "dataArcs", append = TRUE)
-  })
+  output$exercises01 <- renderImage({
+    require(png)
+    pic <- readPNG("images/exercises01.png")
+    pic.size <- dim(pic)
+    pic.ratio <- pic.size[1]/pic.size[2]
+    imgwidth  <- min(session$clientData$output_graph01_width, pic.size[2])
+    imgheight <- imgwidth * pic.ratio
+    list(src = "images/exercises01.png",
+         width = imgwidth,
+         height = imgheight,
+         alt = "images/exercises01.png")
+  }, 
+  deleteFile = FALSE)
   
   output$selectInferenceUI <- renderUI({
     switch (input$selectInference,
-            "Import: .bif file" = {fileInput("uploadInferenceBif", "Choose .bif file", accept=c(".bif"))},
-            "Import: .dsc file" = {fileInput("uploadInferenceDsc", "Choose .dsc file", accept=c(".dsc"))},
-            "Import: .net file" = {fileInput("uploadInferenceNet", "Choose .net file", accept=c(".net"))},
-            "Example: asia" = downloadButton("downloadInference", "Download")
+            "Import: .bif file" = { fileInput("uploadInferenceBif", "Choose .bif file", accept=c(".bif")) },
+            "Import: .dsc file" = { fileInput("uploadInferenceDsc", "Choose .dsc file", accept=c(".dsc")) },
+            "Import: .net file" = { fileInput("uploadInferenceNet", "Choose .net file", accept=c(".net")) },
+            "Example: asia" = { downloadButton("downloadInference", "Download") }
     )
   })
   
@@ -243,8 +184,7 @@ shinyServer(function(input, output, session) {
                 fitted <- read.bif(input$uploadInferenceBif$datapath)
                 event <- paste(as.character(input$eventInferenceBif), " == ", as.character(input$eventInferenceBifValue))
                 evidence <- as.character(input$evidenceInferenceBif)
-                write(as.character(input$evidenceInferenceBif), file = "temp")
-                inference <- paste("cpquery(fitted, ", event, ", ", evidence, ")", sep = "")
+                inference <- paste("cpquery(fitted, ", event, ", ", evidence, ", n = 10^6)", sep = "")
                 textInference <- eval(parse(text = inference))
               }
             },
@@ -253,8 +193,7 @@ shinyServer(function(input, output, session) {
                 fitted <- read.dsc(input$uploadInferenceDsc$datapath)
                 event <- paste(as.character(input$eventInferenceDsc), " == ", as.character(input$eventInferenceDscValue))
                 evidence <- as.character(input$evidenceInferenceDsc)
-                write(as.character(input$evidenceInferenceDsc), file = "temp")
-                inference <- paste("cpquery(fitted, ", event, ", ", evidence, ")", sep = "")
+                inference <- paste("cpquery(fitted, ", event, ", ", evidence, ", n = 10^6)", sep = "")
                 textInference <- eval(parse(text = inference))
               }
             },
@@ -263,8 +202,7 @@ shinyServer(function(input, output, session) {
                 fitted <- read.net(input$uploadInferenceNet$datapath)
                 event <- paste(as.character(input$eventInferenceNet), " == ", as.character(input$eventInferenceNetValue))
                 evidence <- as.character(input$evidenceInferenceNet)
-                write(as.character(input$evidenceInferenceNet), file = "temp")
-                inference <- paste("cpquery(fitted, ", event, ", ", evidence, ")", sep = "")
+                inference <- paste("cpquery(fitted, ", event, ", ", evidence, ", n = 10^6)", sep = "")
                 textInference <- eval(parse(text = inference))
               }
             },
@@ -274,8 +212,7 @@ shinyServer(function(input, output, session) {
               fitted <- bn.fit(net, asia)
               event <- paste(as.character(input$eventInferenceExampleAsia), " == ", as.character(input$eventInferenceExampleAsiaValue))
               evidence <- as.character(input$evidenceInferenceExampleAsia)
-              write(as.character(input$evidenceInferenceExampleAsia), file = "temp")
-              inference <- paste("cpquery(fitted, ", event, ", ", evidence, ")", sep = "")
+              inference <- paste("cpquery(fitted, ", event, ", ", evidence, ", n = 10^6)", sep = "")
               textInference <- eval(parse(text = inference))
             }
     )
