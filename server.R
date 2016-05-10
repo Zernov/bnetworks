@@ -148,7 +148,6 @@ shinyServer(function(input, output, session) {
               }
             },
             "Example: asia" = {
-              
               textInput("evidenceInferenceExampleAsia", "Evidence:")
             }
     )
@@ -175,6 +174,86 @@ shinyServer(function(input, output, session) {
               actionButton("makeInferenceButton", "Inference")
             }
     )
+  })
+  
+  output$consoleInferenceUI <- renderUI({
+    switch (input$selectInference,
+            "Import: .bif file" = {
+              if (!is.null(input$uploadInferenceBif)) {
+                fluidRow(
+                  column(9,
+                         textInput("consoleInference", "", width = "auto")),
+                  column(3,
+                         h1(""),
+                         actionButton("consoleInferenceButton", "Run", width = "auto"))
+                )
+              }
+            },
+            "Import: .dsc file" = {
+              if (!is.null(input$uploadInferenceDsc)) {
+                fluidRow(
+                  column(9,
+                         textInput("consoleInference", "", width = "auto")),
+                  column(3,
+                         h1(""),
+                         actionButton("consoleInferenceButton", "Run", width = "auto"))
+                )
+              }
+            },
+            "Import: .net file" = {
+              if (!is.null(input$uploadInferenceNet)) {
+                fluidRow(
+                  column(9,
+                         textInput("consoleInference", "", width = "auto")),
+                  column(3,
+                         h1(""),
+                         actionButton("consoleInferenceButton", "Run", width = "auto"))
+                )
+              }
+            },
+            "Example: asia" = {
+              fluidRow(
+                column(9,
+                       textInput("consoleInference", "", width = "auto")),
+                column(3,
+                       h1(""),
+                       actionButton("consoleInferenceButton", "Run", width = "auto"))
+              )
+            }
+    )
+  })
+  
+  textConsoleInference <- eventReactive(input$consoleInferenceButton, {
+    switch (input$selectInference,
+            "Import: .bif file" = {
+              if (!is.null(input$uploadInferenceBif)) {
+                fitted <- read.bif(input$uploadInferenceBif$datapath)
+                textConsoleInference <- toString(eval(parse(text = input$consoleInference)))
+              }
+            },
+            "Import: .dsc file" = {
+              if (!is.null(input$uploadInferenceDsc)) {
+                fitted <- read.dsc(input$uploadInferenceDsc$datapath)
+                textConsoleInference <- toString(eval(parse(text = input$consoleInference)))
+              }
+            },
+            "Import: .net file" = {
+              if (!is.null(input$uploadInferenceNet)) {
+                fitted <- read.net(input$uploadInferenceNet$datapath)
+                textConsoleInference <- toString(eval(parse(text = input$consoleInference)))
+              }
+            },
+            "Example: asia" = {
+              net <- hc(asia)
+              arcs(net) <- c(arcs(net), c("A", "T"))
+              fitted <- bn.fit(net, asia)
+              textConsoleInference <- toString(eval(parse(text = input$consoleInference)))
+            }
+    )
+  })
+  
+  output$consoleInferenceOutput <- renderText({
+    textConsoleInference()
   })
   
   textInference <- eventReactive(input$makeInferenceButton, {
@@ -219,7 +298,7 @@ shinyServer(function(input, output, session) {
   })
   
   output$outputInference <- renderText({
-    textInference()
+    substr(textInference(), 1, 6)
   })
   
   output$plotInference <- renderPlot({

@@ -13,7 +13,7 @@ sidebar <- dashboardSidebar(
              menuSubItem("R", tabName = "basicsr"),
              menuSubItem("Exercises", tabName = "basicsexercises")
     ),
-    menuItem("Bayesian networks", tabName = "bnetworks"),
+    menuItem("[dev]Bayesian networks theory ", tabName = "bnetworks"),
     menuItem("Inference", tabName = "inference")
   )
 )
@@ -377,11 +377,14 @@ body <- dashboardBody(
             uiOutput("selectInferenceUI"),
             uiOutput("eventInferenceUI"),
             uiOutput("evidenceInferenceUI"),
-            uiOutput("makeInferenceUI")
+            uiOutput("makeInferenceUI"),
+            code(textOutput("outputInference"))
           ),
           mainPanel(
             plotOutput("plotInference"),
-            textOutput("outputInference")
+            uiOutput("consoleInferenceUI"),
+            h4("Output:"),
+            pre(textOutput("consoleInferenceOutput"))
           )
         )
       )
